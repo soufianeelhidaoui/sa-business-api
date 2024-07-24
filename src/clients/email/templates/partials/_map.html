@@ -1,0 +1,54 @@
+
+<div style="font-family:VW Head, Arial;font-size:14px;font-weight:300;line-height:24px;text-align:left;color:#000;margin:0px auto;max-width:600px">
+  <center>
+  <h3 style="font-size:24px;font-weight:700;padding:0 50px">Votre concessionnaire</h3>
+  </center>
+</div>
+
+<div style="float: left;">
+  <h6 style="font-size:18px;font-style: normal;line-height: 24px; font-family:VW Head, Arial">{{partner.title}}</h6>
+  <p style="font-size:14px;font-style: normal;line-height: 18px; font-family:VW Head, Arial">
+    <img src="{{ websiteURL }}/assets/shop/img/icon-pin.png" width="15px" height="15px"/>
+    {{partner.address}}
+  </p>
+  <p style="font-size:14px;font-style: normal;line-height: 18px; font-family:VW Head, Arial">
+    <img src="{{ websiteURL }}/assets/shop/img/icon-phone.png" width="15px" height="15px"/>
+    {{partner.tel}}
+  </p>
+  <p>
+    <a href="https://www.google.com/maps/dir//+{{ partner.address }}+{{ partner.postal_code }}+{{ partner.city }}" style="padding:5px 20px;border:1px solid;border-radius:25px;color:#000;text-decoration:none" target="_blank">
+      <img src="{{ websiteURL }}/assets/shop/img/icon-navigate.png" style="border:0;display:inline-block;outline:none;text-decoration:none;margin-right:5px" width="16" height="16" class="CToWUd" data-bit="iit">
+      Voir l’itinéraire
+  </a>
+  </p>
+</div>
+
+<div style="float: right;">
+  <div class="mj-column-per-43 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+    <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+        <tbody>
+            <tr>
+                <td style="vertical-align:top;padding:0;">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style width="100%">
+                        <tbody>
+                            <tr>
+                                <td align="center" style="font-size:0px;padding:0;word-break:break-word;">
+                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width:214px;">
+                                                    <img src="https://maps.googleapis.com/maps/api/staticmap?center='{{ partner.address }}'+'{{ partner.postal_code }}'+'{{ partner.city }}'&zoom=14&size=214x214&maptype=roadmap&key=AIzaSyAwFtKQ_9R8khClNMXQwTh_sDMslMFEvs0" width="214" height="214"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</div>

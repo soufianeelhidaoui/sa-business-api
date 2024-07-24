@@ -1,0 +1,80 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": [
+      "es6"
+    ],
+    "module": "ESNext",
+    "useDefineForClassFields": true,
+    "baseUrl": "./",
+    "types": [
+      "vite/client",
+      "jest"
+    ],
+    "paths": {
+      "@config": [
+        "./src/utils/config"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@middlewares/*": [
+        "./src/middlewares/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ],
+      "@routes/*": [
+        "./src/routes/*"
+      ],
+      "@routes": [
+        "./src/routes/index.ts"
+      ],
+      "@clients/*": [
+        "src/clients/*"
+      ],
+      "@ts-types/*": [
+        "./src/types/*"
+      ],
+      "@schema/*": [
+        "./src/schema/*"
+      ],
+      "@app/*": [
+        "./src/*"
+      ],
+      "@root/*": [
+        "./*"
+      ],
+      "@email/*": [
+        "./src/email/*"
+      ]
+    },
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "checkJs": false,
+    "outDir": "build",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src", "tests"
+  ],
+  "exclude": [
+    "./node_modules",
+    "./dist"
+  ]
+}

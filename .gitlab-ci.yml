@@ -1,0 +1,179 @@
+include:
+  - project: inventivit/devops/gitlab-templates
+    ref: main
+    file:
+      - variables/container-image.yml
+      - jobs/container-image.yml
+  - template: Security/Container-Scanning.gitlab-ci.yml
+  - template: Jobs/SAST.gitlab-ci.yml
+
+workflow:
+  rules:
+    # Allow merge request pipelines
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^(feature|fix)\/.*$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+      variables:
+        CACHE_KEY_PREFIX: ${CI_COMMIT_REF_SLUG}
+    # On preproduction branch
+    - if: $CI_COMMIT_BRANCH == "main"
+      variables:
+        SERVER: root@dev.algolia.oyez.fr
+        SSH_KEY: $DEV_SSH_KEY
+        CACHE_KEY_PREFIX: ${CI_COMMIT_REF_SLUG}
+    # On master branch
+    - if: $CI_COMMIT_TAG != null
+      variables:
+        SERVER: root@prod-algolia.oyez.fr
+        SSH_KEY: $PROD_SSH_KEY
+        CACHE_KEY_PREFIX: "main"
+
+stages:
+  - dependencies
+  - test
+  - build
+  - package
+  - analyze
+  - promote
+  - deploy
+
+variables:
+  CONTAINER_IMAGE_NAME: sa-business-api
+  NODEJS_IMAGE: node:18-alpine
+  CONTAINER_BUILD_FILE: container-images/sa-business-api/Dockerfile
+
+.pnpm_deps_update_rules:
+  rules:
+    - if: $CI_COMMIT_BRANCH != "main"
+      changes:
+        paths:
+          - package.json
+          - pnpm-lock.yaml
+        compare_to: refs/heads/main
+    - if: $CI_COMMIT_BRANCH == "main"
+
+.pnpm_deps_cache:
+  cache: &pnpm_deps_cache
+    key: ${CACHE_KEY_PREFIX}-pnpm-deps
+    paths:
+      - node_modules
+    policy: pull
+    unprotect: true
+
+dependencies:
+  image: ${NODEJS_IMAGE}
+  stage: dependencies
+  before_script:
+    - npm install -g pnpm@8.15.8
+  script:
+    - pnpm install
+  cache:
+    <<: *pnpm_deps_cache
+    policy: pull-push
+  rules: !reference [.pnpm_deps_update_rules, rules]
+
+lint:
+  image: ${NODEJS_IMAGE}
+  stage: test
+  before_script:
+    - npm install -g pnpm@8.15.8
+  script:
+    - pnpm install
+    - pnpm run lint
+  cache:
+    <<: *pnpm_deps_cache
+  rules:
+    - if: $CI_COMMIT_TAG == null
+  allow_failure: true
+
+test:
+  image: ${NODEJS_IMAGE}
+  stage: test
+  variables:
+    AWS_ACCESS_KEY_ID: ${VITE_AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${VITE_AWS_SECRET_ACCESS_KEY}
+    AWS_DEFAULT_REGION: ${VITE_AWS_DEFAULT_REGION}
+  before_script:
+    - npm install -g pnpm@8.15.8
+  script:
+    - pnpm install
+    - pnpm run ci-test
+  cache:
+    <<: *pnpm_deps_cache
+  coverage: '/All files\s+\|\s+\d+\.\d+\s+\|\s+\d+\.\d+\s+\|\s+\d+\.\d+\s+\|\s+(\d+\.\d+)\s+.*/'
+  artifacts:
+    reports:
+      junit:
+        - test-output.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+  rules:
+    - if: $CI_COMMIT_TAG == null
+
+semgrep-sast:
+  rules:
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^(feature|fix)\/.*$/ && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+build:
+  image: ${NODEJS_IMAGE}
+  stage: build
+  before_script:
+    - npm install -g pnpm@8.15.8
+  script:
+    - pnpm install
+    - pnpm build
+  cache:
+    <<: *pnpm_deps_cache
+  artifacts:
+    when: on_success
+    expire_in: "30 days"
+    paths:
+      - "dist"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG == null
+
+package:
+  stage: package
+  extends:
+    - .build_container_image
+  cache:
+    <<: *pnpm_deps_cache
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG == null
+
+container_scanning:
+  stage: analyze
+  variables:
+    CS_IMAGE: ${CI_REGISTRY_IMAGE}/${CONTAINER_IMAGE_NAME}:${CONTAINER_IMAGE_TAG}
+    CS_DOCKERFILE_PATH: "container-images/sa-business-api/Dockerfile"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_COMMIT_TAG == null
+
+container_promoting:
+  stage: promote
+  extends:
+    - .promote_container_image
+  rules:
+    - if: $CI_COMMIT_TAG != null
+
+deploy:
+  stage: deploy
+  image: node:12.0.0
+  before_script:
+    ## Install ssh-agent if not already installed, it is required by Docker.
+    - "command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )"
+    ## Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+    ## Give the right permissions, otherwise ssh-add will refuse to add files
+    ## Add the SSH key stored in SSH_PRIVATE_KEY file type CI/CD variable to the agent store
+    - ssh-add <(echo "$SSH_KEY")
+    ## Create the SSH directory and give it the right permissions
+    - mkdir -p ~/.ssh
+    - cat my_known_hosts >> ~/.ssh/known_hosts
+  script:
+    - ssh ${SERVER} "sed 's/{CONTAINER_IMAGE_TAG}/${CONTAINER_IMAGE_TAG}/g' /root/.local/environment/sa-business-api-service.env.cicd.tpl > /root/.local/environment/sa-business-api-service.env && systemctl restart sa-business-api"
+  rules:
+    - if: $SERVER != null && $SSH_KEY != null && $CI_COMMIT_TAG == null
+    - if: $SERVER != null && $SSH_KEY != null && $CI_COMMIT_TAG != null
+      variables:
+        CONTAINER_IMAGE_TAG: $CI_COMMIT_TAG

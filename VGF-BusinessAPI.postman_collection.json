@@ -1,0 +1,492 @@
+{
+	"info": {
+		"_postman_id": "fca85817-5038-4c3c-a8f3-ca423331c038",
+		"name": "VGF-BusinessAPI",
+		"description": "This collection documents how the new VGF API works.\n\nFor now, not everything is implemented, but you can try the following:\n\n- get dealers for all brands\n    \n- create checkout with smartpay\n    \n- get payment status",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2664515"
+	},
+	"item": [
+		{
+			"name": "get-dealers",
+			"item": [
+				{
+					"name": "Get Skoda Dealers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/{{GET_DELEARS_ENDPOINT}}/skoda",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"{{GET_DELEARS_ENDPOINT}}",
+								"skoda"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Seat Dealers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/{{GET_DELEARS_ENDPOINT}}/seat",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"{{GET_DELEARS_ENDPOINT}}",
+								"seat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get VW Dealers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/{{GET_DELEARS_ENDPOINT}}/vw",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"{{GET_DELEARS_ENDPOINT}}",
+								"vw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get VWU Dealers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/{{GET_DELEARS_ENDPOINT}}/vwu",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"{{GET_DELEARS_ENDPOINT}}",
+								"vwu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cupra Dealers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/{{GET_DELEARS_ENDPOINT}}/cupra",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"{{GET_DELEARS_ENDPOINT}}",
+								"cupra"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payment",
+			"item": [
+				{
+					"name": "Create Checkout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"payment\": {\n      \"amount\": 500,\n      \"currencyCode\": \"EUR\",\n      \"description\": \"Order from website\"\n  },\n  \"consumer\": {\n      \"firstName\": \"Jean-Nicolas\",\n      \"lastName\": \"Moal\",\n      \"emailAddress\": \"jean-nicolas.moal@inventiv-it.fr\"\n  },\n  \"billingAddress\": {\n      \"addressLine1\": \"A street\",\n      \"city\": \"Paris\",\n      \"postCode\": \"92000\",\n      \"countryCode\": \"FR\"\n  },\n  \"order\": {\n      \"externalOrderReference\": \"000000001\",\n      \"lines\": [\n          {\n              \"lineNumber\": 1,\n              \"itemArticleId\": \"29798723423\",\n              \"itemName\": \"C\\\\u00e2ble MODE 2 + Nettoyeur pour c\\\\u00e2ble de chargement\",\n              \"quantity\": 1,\n              \"unitPrice\": 500,\n              \"netAmount\": 500,\n              \"vatPercent\": 0,\n              \"vatAmount\": 0,\n              \"grossAmount\": 0\n          }\n      ]\n  },\n  \"customReferences\": {\n    \"custom1\": \"skoda\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/create-checkout/skoda/FRAC02469",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"create-checkout",
+								"skoda",
+								"FRAC02469"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payment Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/payment/f5346cc2-ee99-40fc-a05c-92ce976415cc",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"payment",
+								"f5346cc2-ee99-40fc-a05c-92ce976415cc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Terms",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb250cmFjdHMiOlt7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjA4NDUxIn0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwODQ1MSJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDg0NTEifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjA4NDUwIn0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwODQ1MCJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDg0NTAifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjA0NjAwIn0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwMzM0MiJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDMzNDIifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjAzMzQyIn0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwODQ3MCJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDg0NzAifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjA4NDcwIn0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwODQ3MSJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDg0NzEifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjA4NDcxIn0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwNzQzMCJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDc0MzAifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjA3NDMwIn0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwMTQ4NCJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDE0ODQifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjAxNDg0In0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwMTQ4NiJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDE0ODYifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjAxNDg2In0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwMTQ5NCJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDE0OTQifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjAxNDk0In0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwMTQ2OSJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDE0NjkifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjAxNDY5In0seyJicmFuZCI6InZ3Iiwia3ZwcyI6IkZSQVYwMjQ2OSJ9LHsiYnJhbmQiOiJ2dyIsImt2cHMiOiJGUkFWMDI0NjkifSx7ImJyYW5kIjoidnciLCJrdnBzIjoiRlJBVjAyNDY5In0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDg0NTEifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQU4wODQ1MSJ9LHsiYnJhbmQiOiJ2d3UiLCJrdnBzIjoiRlJBTjA4NDUwIn0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDg0NTAifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQUEwNDYwMCJ9LHsiYnJhbmQiOiJ2d3UiLCJrdnBzIjoiRlJBTjAzMzQyIn0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDMzNDIifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQU4wODQ3MCJ9LHsiYnJhbmQiOiJ2d3UiLCJrdnBzIjoiRlJBTjA4NDcwIn0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDg0NzEifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQU4wODQ3MSJ9LHsiYnJhbmQiOiJ2d3UiLCJrdnBzIjoiRlJBTjA3NDMwIn0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDc0MzAifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQU4wNzQzMCJ9LHsiYnJhbmQiOiJ2d3UiLCJrdnBzIjoiRlJBTjA3NDMwIn0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDc0MzAifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQU4wMTQ4NCJ9LHsiYnJhbmQiOiJ2d3UiLCJrdnBzIjoiRlJBTjAxNDg0In0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDE0ODQifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQU4wMTQ4NCJ9LHsiYnJhbmQiOiJ2d3UiLCJrdnBzIjoiRlJBTjAxNDg2In0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDE0ODYifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQU4wMTQ5NCJ9LHsiYnJhbmQiOiJ2d3UiLCJrdnBzIjoiRlJBTjAxNDk0In0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDE0NjkifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQU4wMTQ2OSJ9LHsiYnJhbmQiOiJ2d3UiLCJrdnBzIjoiRlJBTjAxNDY5In0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDE0NjkifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQU4wMjQ2OSJ9LHsiYnJhbmQiOiJ2d3UiLCJrdnBzIjoiRlJBTjAyNDY5In0seyJicmFuZCI6InZ3dSIsImt2cHMiOiJGUkFOMDI3MjIifSx7ImJyYW5kIjoidnd1Iiwia3ZwcyI6IkZSQU4wMjcyMiJ9LHsiYnJhbmQiOiJza29kYSIsImt2cHMiOiJGUkFDMDg0NTEifSx7ImJyYW5kIjoic2tvZGEiLCJrdnBzIjoiRlJBQzA4NDUxIn0seyJicmFuZCI6InNrb2RhIiwia3ZwcyI6IkZSQUMwODQ1MCJ9LHsiYnJhbmQiOiJza29kYSIsImt2cHMiOiJGUkFDMDMzNDIifSx7ImJyYW5kIjoic2tvZGEiLCJrdnBzIjoiRlJBQzA4NDcwIn0seyJicmFuZCI6InNrb2RhIiwia3ZwcyI6IkZSQUMwNzQzMCJ9LHsiYnJhbmQiOiJza29kYSIsImt2cHMiOiJGUkFDMDc0MzAifSx7ImJyYW5kIjoic2tvZGEiLCJrdnBzIjoiRlJBQzA3NDMwIn0seyJicmFuZCI6InNrb2RhIiwia3ZwcyI6IkZSQUMwMTQ2OSJ9LHsiYnJhbmQiOiJza29kYSIsImt2cHMiOiJGUkFDMDE0NjkifSx7ImJyYW5kIjoic2tvZGEiLCJrdnBzIjoiRlJBQzAxNDY5In0seyJicmFuZCI6InNrb2RhIiwia3ZwcyI6IkZSQUMwMjQ2OSJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwODQ1MCJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwODQ1MCJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwODQ1MCJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwNDYwMCJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwMzM0MiJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwMzM0MiJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwMzM0MiJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwODQ3MCJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwODQ3MCJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwODQ3MCJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwMTQ2OSJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwMTQ2OSJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwMTQ2OSJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwMjA2NyJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwMjA2NyJ9LHsiYnJhbmQiOiJhdWRpIiwia3ZwcyI6IkZSQUEwMjA2NyJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwODQ1MCJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwODQ1MCJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwNDYwMCJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwMzM0MiJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwMzM0MiJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwODQ3MCJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwODQ3MCJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwODQ3MCJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwNzQzMCJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwNzQzMCJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwNzQzMCJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwNzQzMCJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwMTQ2OSJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwMTQ2OSJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwMTQ2OSJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwMTQ2OSJ9LHsiYnJhbmQiOiJzZWF0Iiwia3ZwcyI6IkZSQVMwMjQ2OSJ9XSwiaWF0IjoxNzA5MDY2MjM3LCJleHAiOjE3MDkxNTI2Mzd9.Tx9gthp6gFm8a-CYd1q_QXdBiFtWyuIJwp4rJXk2d2A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-kvps",
+								"value": "FRAC02469",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/admin/Downloads/CGV_TEST.pdf"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/terms",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"terms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Has Payment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/has-payment/FRAC02469",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"has-payment",
+								"FRAC02469"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Prices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/prices",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"prices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Notification WebHook",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"objectId\": \"f5346cc2-ee99-40fc-a05c-92ce976415cc\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/payment-webhook",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"payment-webhook"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Get Orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-kvps",
+								"value": "FRAC02469",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/orders",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-kvps",
+								"value": "FRAC02469"
+							}
+						],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/order/2585",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"2585"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Orders",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-kvps",
+								"value": "FRAC02469"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2590,\n    \"state\": \"cancelled\",\n    \"notes\": \"\",\n    \"kvps\": \"FRAC02469\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/order/2655",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"2655"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prices",
+			"item": [
+				{
+					"name": "Get Prices",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-kvps",
+								"value": "FRAV03342",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{VGF_API_BASE_URL}}/prices",
+							"host": [
+								"{{VGF_API_BASE_URL}}"
+							],
+							"path": [
+								"prices"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"GVF_TOKEN\", jsonData.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"strictSSL": false
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"authToken\": \"2190772285895\", \"appID\": \"133\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{VGF_API_BASE_URL}}/auth/login",
+					"host": [
+						"{{VGF_API_BASE_URL}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Healthiness",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{VGF_API_BASE_URL}}/health",
+					"host": [
+						"{{VGF_API_BASE_URL}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{GVF_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

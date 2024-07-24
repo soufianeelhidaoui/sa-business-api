@@ -1,0 +1,8 @@
+# Key mapping
+# Jean-Nicolas Moal: age1ps2m0xu2syzr24aem2uuxkjx5x2fsqdtcgahkqwnx6ellj6tzqjssldedy
+# GitLab CI: age1qsvwpes8uvwcmuhg3gtunlk9pwzpzdmjzf92zv0gvjks6jscr5dsvq2e5e
+# Mohammed Elkourchi: age1wyf35smhcwkjylplcn66ue46st77md8ya385kjtca4kja4vh7frsa59f0n
+
+creation_rules:
+  - path_regex: secrets.yaml
+    age: "age1ps2m0xu2syzr24aem2uuxkjx5x2fsqdtcgahkqwnx6ellj6tzqjssldedy,age1wyf35smhcwkjylplcn66ue46st77md8ya385kjtca4kja4vh7frsa59f0n,age1qsvwpes8uvwcmuhg3gtunlk9pwzpzdmjzf92zv0gvjks6jscr5dsvq2e5e"

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined|Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+    </style>
+  </head>
+  <body>
+    <div style="max-width: 600px; margin: 0 auto;">
+      {{> headBand }}
+      <div style= 'font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        font-family: VW Text, Arial;
+        margin-bottom: 32px
+        '>
+        <h2>
+          <center>Confirmation de votre commande</center>
+        </h2>
+        <p>Bonjour {{ orderDetails.customer.firstName }},</p>
+        <p>Votre commande n° {{ orderDetails.number }} a bien été transmise à votre partenaire ! Vous trouverez le détail ci-dessous pour un montant total de {{ formatPrice orderDetails.total }} €.
+        </p>
+      </div>
+
+      {{> articles }}
+
+      <div>
+        <hr style="color: #DFE4E8" />
+        <div style="float: left;">
+          <p style="
+            font-family: VW Head, Arial;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: 24px;
+          ">Nombre</p>
+          <span style="
+            font-family: VW Head, Arial;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 24px;
+          ">{{ orderDetails.countItems }}</span>
+        </div>
+        <div style="float: right;">
+          <p style="
+            font-family: VW Head, Arial;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: 24px;
+          ">Total TTC</p>
+          <span style="
+            font-family: VW Head, Arial;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 24px;
+          ">{{ formatPrice orderDetails.total }}</span>
+        </div>
+      </div>
+      <div style="clear: both;" />
+      <div>
+        <hr style="color: #DFE4E8" />
+        <div style="margin: 30px auto;">
+          <center>
+            <span style="padding: 10px;font-style:normal;background-color:#ffffff; text-decoration:none;font-weight:400;line-height:20px;font-family:VW Head, Arial;color:#000000;border-radius:50px;border:1px solid #000000;">
+                <span style="font-family: VW Text, Arial; font-size: 14px; font-style: normal; font-weight: 400; line-height: 20px;">
+                  <a href="{{ websiteURL }}" target="_blank" >
+                    < Retourner sur votre boutique accessoires
+                  </a>
+                </span>
+              </span>
+          </center>
+        </div>
+        <hr style="color: #DFE4E8" />
+          {{> dealerMap }}
+        <div style="clear: both;" />
+        {{> footer }}
+      </div>
+    </div>
+    </body>
+</html>

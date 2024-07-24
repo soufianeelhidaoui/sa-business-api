@@ -1,0 +1,14 @@
+query getProductListing {
+  getProductListing (published: false) {
+    totalCount
+    edges {
+      node {
+        name
+        reference
+        recommendedPriceTTC
+        recommendedPromotionPriceTTC
+        published
+      }
+    }
+  }
+}

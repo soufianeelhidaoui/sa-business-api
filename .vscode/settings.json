@@ -1,0 +1,13 @@
+{
+  "cSpell.words": [
+    "bodyparser",
+    "kvps",
+    "middlewares",
+    "prestations",
+    "Skoda",
+    "SKRA"
+  ],
+  "vitest.commandLine": "npx vitest",
+  "vitest.enable": true,
+  "eslint.experimental.useFlatConfig": true
+}
